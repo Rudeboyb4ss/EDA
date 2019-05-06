@@ -50,16 +50,14 @@ void añadir(int filaActual, int columnaActual, double datoActual) {
       }
  }
  
- void mostrar() {
+ void MostrarListaEnlazada() {
       MD *auxiliar; // lo usamos para recorrer la lista.
-      int i;
- 
-      i=0;
+      int i=0;
       auxiliar = primero;
       printf("\nMostrando la lista completa:\n");
 
       while (auxiliar!=NULL) {
-            printf( "[fila %d,columna %d, dato %f\n",auxiliar->fila,auxiliar->Columna,auxiliar->dato);
+            printf( "[fila %d,columna %d, dato %f]\n",auxiliar->fila,auxiliar->Columna,auxiliar->dato);
             auxiliar = auxiliar->siguiente;
             i++;
       }
@@ -67,8 +65,49 @@ void añadir(int filaActual, int columnaActual, double datoActual) {
  }
 
 
-void powMatriz(){
+int powMatriz(double exp){
+   MD * auxiliar;
+   int i;
+   i= 0;
+   auxiliar = primero;
+   while (auxiliar!= NULL){
+   auxiliar->dato = pow(auxiliar->dato,exp);
+   auxiliar =auxiliar->siguiente;
+   i++;
+   }
+   return i;
+}
 
+void MostrarMatriz(int n,int contador){
+   int matriz[n][n];
+   int i;
+   for (i = 0; i < n; ++i){
+      int j;
+      for (j = 0; j < n; ++j){
+         matriz[i][j]= 0;
+      }
+   }
+
+   MD *auxiliar; // lo usamos para recorrer la lista.
+   auxiliar = primero;
+   for (int i = 0; i < contador; ++i){
+      matriz[auxiliar->fila][auxiliar->Columna] = (int)(auxiliar->dato);
+      auxiliar = auxiliar->siguiente;
+   }
+   printf("La Matriz resultante es:\n");
+   int l;
+   for (l = 0; l < n; ++l){
+      int m;
+      for (m = 0; m < n; ++m){
+         printf(" %d ",matriz[l][m]);
+      }
+      printf("\n");
+   }  
+
+   int bitsOcupados = (contador * 8) + (((n*n) - contador) *4);
+   int bitsReales = ((n*n) * 8);
+   printf("El tamaño de la matriz dispersa es: %d bytes.\n",bitsOcupados);
+   printf("El tamaño de la matriz completa habría sido: %d bytes.\n",bitsReales);
 }
 
 //Funcion: Leer Matriz 
@@ -79,7 +118,7 @@ void LeerMatriz(){
    FILE *fichero;
    //se crea variable para guardar el orden de la matriz.
    int n = 0;
-   int exp = 0;
+   double exp = 0;
 
    //se abre el archivo.
    //************************************************
@@ -95,8 +134,10 @@ void LeerMatriz(){
 
    //toma el primer valor para guardar el tamaño de la matriz.
    fscanf (fichero, "%d", &n);
+   //printf("La matriz otorgada es de (%d,%d).\n",n,n);
    //toma el segundo valor para saber a que numero se elevará la matriz.
-   fscanf (fichero, "%d", &exp);
+   fscanf (fichero, "%lf", &exp);
+   //printf("El exponente otorgado ha sido :%lf. \n", exp);
    //se reserva memoria para la matriz.
 
    //leer datos y rellenar matriz 
@@ -115,6 +156,9 @@ void LeerMatriz(){
    //Se cierra el archivo.
    fclose(fichero);
 
+   int contador = powMatriz(exp);
+   MostrarMatriz(n,contador);
+
 
 }
 
@@ -123,6 +167,6 @@ int main(int argc, char const *argv[]){
    ultimo = (MD *) NULL;
 	//Se llama a la funcion que lee y realiza llamados de procesamiento.
 	LeerMatriz();
-   mostrar();
+   //MostrarListaEnlazada();
 	return 0;
 }
