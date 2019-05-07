@@ -129,10 +129,10 @@ void MostrarMatriz(int n,int contador){
       printf("\n");
    }
    //La estructura ocupa 1 Double (8 bytes) y 2 enteros (4 bytes).
-   int bitsOcupados = (contador * 16) + (((n*n) - contador) *4);
-   int bitsReales = ((n*n) * 16);
-   printf("El tamaño de la matriz dispersa es: %d bytes.\n",bitsOcupados);
-   printf("El tamaño de la matriz completa habría sido: %d bytes.\n",bitsReales);
+   long int bitsOcupados = (contador * 16) + (((n*n) - contador) *4);
+   long int bitsReales = ((n*n) * 16);
+   printf("El tamaño de la matriz dispersa es: %ld bytes.\n",bitsOcupados);
+   printf("El tamaño de la matriz completa habría sido: %ld bytes.\n",bitsReales);
 }
 
 //Funcion: Leer Matriz 
@@ -147,7 +147,7 @@ void LeerMatriz(){
 
    //se abre el archivo.
    //************************************************
-   fichero = fopen("matriz-2333148719.in","r");
+   fichero = fopen("MatrizPrueba.in","r");
    //************************************************
    //Si no se puede abrir.
    if (fichero==NULL){
@@ -162,7 +162,7 @@ void LeerMatriz(){
    //toma el segundo valor para saber a que numero se elevará la matriz.
    fscanf (fichero, "%lf", &exp);
    printf("La matriz dispersa otorgada es de [%d,%d].\n",n,n);
-   printf("El exponente otorgado ha sido :%d.\n", (int)exp);
+   printf("El exponente otorgado ha sido: >%d<.\n", (int)exp);
 
    //Se Recorren los elementos del archivo.
    int i;
